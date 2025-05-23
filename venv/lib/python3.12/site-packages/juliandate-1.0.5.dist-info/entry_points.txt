@@ -1,0 +1,2 @@
+[console_scripts]
+jd = juliandate.jd:main
