@@ -18,7 +18,7 @@
       <trkpt lat="53.010689" lon="-6.302593">
         <ele>175.6</ele>
         <name>start</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -414,7 +414,7 @@
       <trkpt lat="53.015474" lon="-6.31236">
         <ele>283.4</ele>
         <name>Laragh to Brockagh, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -505,7 +505,7 @@
       <trkpt lat="53.018109" lon="-6.322167">
         <ele>373.7</ele>
         <name>Laragh to Brockagh, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -649,7 +649,7 @@
       <trkpt lat="53.026238" lon="-6.323719">
         <ele>469.0</ele>
         <name>Laragh to Brockagh, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -712,7 +712,7 @@
       <trkpt lat="53.0273" lon="-6.334836">
         <ele>456.7</ele>
         <name>Brockagh SE Top, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -826,7 +826,7 @@
       <trkpt lat="53.031058" lon="-6.348336">
         <ele>552.9</ele>
         <name>Brockagh Mountain NW Top, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -961,7 +961,7 @@
       <trkpt lat="53.037585" lon="-6.352139">
         <ele>546.7</ele>
         <name>Brockagh Mountain, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
@@ -1108,7 +1108,7 @@
       <trkpt lat="53.043324" lon="-6.361063">
         <ele>544.2</ele>
         <name>Brockagh ED, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:locType>routingNode</oa:locType>
@@ -1526,7 +1526,7 @@
       <trkpt lat="53.0543" lon="-6.382575">
         <ele>813.8</ele>
         <name>Wicklow Gap to Tonelagee, The Municipal District of Wicklow</name>
-        <desc>wp</desc>
+        <desc>cp</desc>
         <sym>waypointFlagComb</sym>
         <extensions>
           <oa:mapZoom>15</oa:mapZoom>
