@@ -1,30 +1,50 @@
+"""
+filename:       route_card.py
+Author:         Adam Walsh
+Date:           02/07/2025
+Description:    This function takes a gpx file and creates a route card from it. It decides which points to include in the
+                route card by checking for a flag somewhere in the point. It should work with either gpx routes and tracks.
+
+                For more information see README file.
+"""
+
 import gpxpy
 import pyproj
+import sys
 import numpy as np
 import pandas as pd
 from datetime import datetime as dt
 from pygeomag import GeoMag
 
+# constants whose values whould not be changed after this block
+# ==============================================================================================================================
+DEFAULT_ELE_BAND_WIDTH = 5 # resolution of elevation for calculating change in elevation
+DEFAULT_ELE_HYSTERISIS = ELE_BAND_WIDTH/3   # height into an elevation band to go for it to count as being in the elevation band
+DEFAULT_CARD_POINT_FLAG = "wp"
+# ==============================================================================================================================
 
-ELE_BAND_WIDTH = 5 # resolution of elevation for calculating change in elevation
-ELE_HYSTERISIS = ELE_BAND_WIDTH/3
-
+# Every point along the route is stored as a route point not just the points that appear on the route card.
+# Elevation change is calculated as a net change between route points so if there is ascent followed by 
+# descent between points, that is lost. This is more relevant when placing points manually instead of an app 
+# placing them along a path because apps place a lot of points. 
 class route_point:
     def __init__(self, gpx_point, transformer, ele_band_prev):
         self.lat, self.lon, self.elevation = gpx_point.latitude, gpx_point.longitude, gpx_point.elevation
-        self.card_point_flag = check_if_card_point(gpx_point, "wp")
+        self.card_point_flag = check_if_card_point(gpx_point) 
         self.easting, self.northing = transformer.transform(gpx_point.latitude, gpx_point.longitude) 
         self.dist_from_prev  = self.ascent_from_prev = self.decent_from_prev = 0
         self.elevation_band = discretize_elevation(self.elevation, ele_band_prev)
  
-    def join_to(self, prev_point):  # calculate values based off coming from the previous point
-        self.dist_from_prev = np.sqrt((self.easting-prev_point.easting)**2 + (self.northing-prev_point.northing)**2)
+    def join_to(self, prev_point):  # calculate values based off trip from from the previous point
+        # assume flat earth
+        self.dist_from_prev = np.sqrt((self.easting-prev_point.easting)**2 + (self.northing-prev_point.northing)**2) 
         elevation_change = self.elevation_band - prev_point.elevation_band
         if elevation_change > 0:
-            self.ascent_from_prev  = elevation_change
+            self.ascent_from_prev = elevation_change
         else:
-            self.decent_from_prev  = elevation_change
+            self.decent_from_prev = elevation_change
 
+# this class stores information about only the points that will appear on the route card not every point along the route
 class card_point:
     def __init__(self, point, points_since_prev_card_point, prev_card_point, magnetic_variation, earth_model, figs_grid_ref):
         self.grid_ref = irish_grid_ref2map_ref(point.easting, point.northing, figs_grid_ref)
@@ -48,8 +68,10 @@ class card_point:
         grid_bearing = earth_model.inv(prev_card_point.lon, prev_card_point.lat, point.lon, point.lat)[0]
         self.compass_bearing = (grid_bearing + magnetic_variation)%360
     
+def 
+
 def irish_grid_ref2map_ref(easting, northing, figs_grid_ref):
-    irish_grid_letter_layout = [['a', 'b', 'c', 'd', 'e'],
+    irish_grid_letter_layout = [['a', 'b', 'c', 'd', 'e'],  # there is no I because it looks like a 1
                                 ['f', 'g', 'h', 'j', 'k'],
                                 ['l', 'm', 'n', 'o', 'p'],
                                 ['q', 'r', 's', 't', 'u'],
@@ -63,6 +85,10 @@ def irish_grid_ref2map_ref(easting, northing, figs_grid_ref):
     letter = irish_grid_letter_layout[letter_index_y][letter_index_x]
     return f"{letter} {x} {y}"
 
+# the elevation is discretized to bring the elevation difference in line with how a person would calculate it
+# if the obvious method of adding up all of the diferences in elevation is used then the elevation is much higher
+# hiiker, garmin explore and outdoor active can all give different elevation differences for the same gpx file
+# the ELEVATION_BAND_WIDTH and ELEVATION_HYSTERESIS constants can be adjusted to make consistent with different sources
 def discretize_elevation(elevation, prev_elevation_band):
         if elevation > prev_elevation_band + ELE_BAND_WIDTH + ELE_HYSTERISIS:
             return (elevation - ELE_HYSTERISIS) // ELE_BAND_WIDTH * ELE_BAND_WIDTH
@@ -71,12 +97,12 @@ def discretize_elevation(elevation, prev_elevation_band):
         else:
             return prev_elevation_band
 
-def check_if_card_point(gpx_point, card_point_marker):
+def check_if_card_point(gpx_point):
     possible_marker_locations = [gpx_point.name, gpx_point.comment, gpx_point.description]
-    for i in possible_marker_locations:
-        if not (isinstance(i, str)):
+    for possible_location in possible_marker_locations:
+        if not (isinstance(possible_location, str)): # skip past empty fields
             continue
-        if card_point_marker in i:
+        if CARD_POINT_MARKER in possible_location:
             return 1
     return 0
 
@@ -104,6 +130,8 @@ def extract_path(gpx):
         points = np.concatenate(gpx.routes[0].points)
     return points
 
+# returns magnetic variation in degrees at time of running the function
+# magnetic variation is given from true north not from grid north
 def mag_var_at_start(lat, lon, ele):
     dt_time = dt.today()
     gm_time = dt_time.year + dt_time.month*1/12
@@ -111,6 +139,7 @@ def mag_var_at_start(lat, lon, ele):
     mag_var = geo_mag.calculate(glat=lat, glon=lon, alt=ele, time=gm_time).d
     return mag_var
 
+# takes the full route and forms an array of points to be put on the route card
 def full_route2route_card(full_route, mag_var, num_gpx_points, figs_grid_ref):
     model = pyproj.Geod(ellps='clrk66')
     card_points = [card_point(full_route[0], "first_point", 0, 0, 0, figs_grid_ref)]
