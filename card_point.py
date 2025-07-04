@@ -2,7 +2,6 @@ import pyproj
 import numpy as np
 
 # this class stores information about only the points that will appear on the route card, not every point along the route
-# I don't like the init function for card_point and intend on changing it
 class card_point:
     def __init__(self, point, points_since_prev_card_point, prev_card_point, magnetic_variation, earth_model, figs_grid_ref):
         self.grid_ref = irish_grid_ref2map_ref(point.easting, point.northing, figs_grid_ref)
