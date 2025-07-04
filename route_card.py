@@ -106,7 +106,7 @@ def create_route_card(input_filename, output_filename, figs_grid_ref=DEFAULT_GRI
 
     for i in range(1, num_gpx_points): 
         full_route[i].join_to(full_route[i-1])
-    
+   
     # create array of just points that should appear on the route card and calculate parameters
     card_points = cp.full_route2route_card(full_route, mag_var, num_gpx_points, figs_grid_ref)
     df = array2df(card_points)

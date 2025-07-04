@@ -10,4 +10,3 @@ pytz==2025.2
 six==1.17.0
 style==1.1.0
 tzdata==2025.2
-update==0.0.1

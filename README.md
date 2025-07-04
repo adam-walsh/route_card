@@ -51,20 +51,29 @@ It is best practice not to include any spaces or special characters in the filen
 
 ### Running the programme from the terminal
 
-For information on running the programme you can access a help message by navigating to the project directory and running the following command:
-
-    python main.py --help
-
 To run the programme navigate to the project directory and run the following command:
 
     python main.py your_route.gpx -o output_filename.csv
 
-Where: your_route.gpx is the name of your gpx file nad output_fliname is the name of the file you want the output to be written to.
+Where "your_route.gpx" is the name of your gpx file nad "output_fliname" is the name of the file you want the output to be written to.
+
+
+For information on running the programme you can access a help message by navigating to the project directory and running the following command:
+
+    python main.py --help
 
 ### Interpreting the output from the programme
+
+A sample output file can be viewed in the route_card.csv and route_card.xlsx files. Note that the Distance, Ascent and Descent 
+
+(should put a screenshot of sample file here)
 
 ## Adjusting Elevation Change Parameters
 
 ## Calling Functions from Other Programmes
 
 # Methodology and Background
+
+# Notes
+
+I still need to finish the README file :/

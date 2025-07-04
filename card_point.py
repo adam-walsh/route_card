@@ -2,6 +2,7 @@ import pyproj
 import numpy as np
 
 # this class stores information about only the points that will appear on the route card, not every point along the route
+# I don't like the init function for card_point and intend on changing it
 class card_point:
     def __init__(self, point, points_since_prev_card_point, prev_card_point, magnetic_variation, earth_model, figs_grid_ref):
         self.grid_ref = irish_grid_ref2map_ref(point.easting, point.northing, figs_grid_ref)
@@ -13,10 +14,10 @@ class card_point:
             self.dist_accumulative = self.ascent_accumulative = self.descent_accumulative = 0
             return
         
-        for point in points_since_prev_card_point[1::]:
-            self.dist_from_prev += point.dist_from_prev 
-            self.ascent_from_prev += point.ascent_from_prev 
-            self.descent_from_prev += point.descent_from_prev 
+        for route_point in points_since_prev_card_point[1::]:
+            self.dist_from_prev += route_point.dist_from_prev 
+            self.ascent_from_prev += route_point.ascent_from_prev 
+            self.descent_from_prev += route_point.descent_from_prev 
         
         self.dist_accumulative = prev_card_point.dist_accumulative + self.dist_from_prev
         self.ascent_accumulative = prev_card_point.ascent_accumulative + self.ascent_from_prev
@@ -51,7 +52,7 @@ def full_route2route_card(full_route, mag_var, num_gpx_points, figs_grid_ref):
         if not (full_route[i].card_point_flag or i==num_gpx_points-1):
             continue
         prev_card_point_i = card_point_index
-        card_point_i = i
+        card_point_index = i
         prec_card_point = card_points[-1:][0]
         cp = card_point(full_route[i], full_route[prev_card_point_i:i+1], card_points[-1:][0], mag_var, model, figs_grid_ref)
         card_points.append(cp)
