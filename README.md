@@ -64,13 +64,42 @@ For information on running the programme you can access a help message by naviga
 
 ### Interpreting the output from the programme
 
-A sample output file can be viewed in the route_card.csv and route_card.xlsx files. Note that the Distance, Ascent and Descent 
+A sample output file can be viewed in the route_card.csv and route_card.xlsx files. Note that the Distance, Ascent, Descent and compass baring all deal with the leg of the journey from the card point on the above row to the card point on the curernt row. All measurements are in m, where applicable. Compass Bearing is given in degrees North. The index of points is zero indexed. Pandas does this by default and I might change this in future.
 
-(should put a screenshot of sample file here)
+(should put a screenshot of a sample file here)
 
-## Adjusting Elevation Change Parameters
+### Setting the number fo figures for a grid reference
+
+The number of figures used in a gridreference is set using the --grid option. A 6 figure grid reference is the default as this is what is most comonly used. It can also be set to 2, 4, 6, 8 or 10 figures. A 4 figure grid refeence is accuarte to within 1 km, a 6 figure to 100 m and an 8 figure to 10 m. 6 Figure grid references are what mountain rescue will ask for if you call them. 
+
+The number of figures in a grid reference is set with the bellow syntax:
+
+    python main.py test.gpx --grid NUM_FIGS 
+
+Where NUM_FIGS is the new number of figures in the grid refreence you want to set. 
+
+For example if you wanted to use an 8 figure grid reference:
+
+    python main.py test.gpx --grid 8
+
+### Adjusting Elevation Change Parameters
+
+The calculation of elevation change is more complicated than it seems like it should be. More on this in the Methodology and Background section (haven't written it yet). By setting the options of interval and buffer the way elevation is calculated is changed. Parameters are given m. These parameters can be changed using the below syntax:
+
+    python main.py test.gpx --interval new_interval --buffer new_buffer
+
+Where new_interval is the new interval you want to set and new_buffer is the new buffer you want to set. 
+
+For example if you wanted to set the Interval to 10 m and the buffer to 3 m you would use the below command:
+
+    python main.py test.gpx --interval 10 --buffer 3 
 
 ## Calling Functions from Other Programmes
+
+The functionality of the programme can be achieved using the create_route_card function. It follows the below syntax and has no return value:
+
+    create_route_card(input_filename, output_filename, figs_grid_ref=DEFAULT_GRID_FIGS, card_point_flag=DEFAULT_CARD_POINT_FLAG, ele_band_width=DEFAULT_ELE_BAND_WIDTH, ele_buffer=AUTO_ELE_BUFFER):
+
 
 # Methodology and Background
 
